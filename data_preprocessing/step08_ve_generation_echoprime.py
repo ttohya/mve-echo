@@ -28,26 +28,23 @@ def main(model_file, echo_ds_file, output_file):
     print("Loading trained model...")
     model = load_trained_model(model_file = model_file)
     
-    # 対象データ読み込み
     test_df = pd.read_csv(echo_ds_file)
     dicom_paths = test_df['dicom_path'].tolist()
     
     print(f"Processing {len(dicom_paths)} DICOM files...")
     
-    # ヘッダー書き込み
     with open(output_file, 'w') as f:
         ve_columns = [f"ve{str(i+1).zfill(3)}" for i in range(512)]
         header = ["dicom_path"] + ve_columns
         f.write(",".join(header) + "\n")
     
-    # バッチ処理でembedding抽出
     batch_size = 8
     for i in tqdm(range(0, len(dicom_paths), batch_size), desc="Extracting embeddings"):
         batch_paths = dicom_paths[i:i+batch_size]
         batch_videos = []
         valid_paths = []
         
-        # バッチデータ準備
+
         for path in batch_paths:
             try:
                 video = utils_echoprime.process_dicom_echoprime(path)
@@ -60,12 +57,11 @@ def main(model_file, echo_ds_file, output_file):
         if not batch_videos:
             continue
             
-        # バッチ推論
+
         try:
             batch_tensor = torch.cat(batch_videos, dim=0).to(device)
             embeddings = model(batch_tensor).cpu().numpy()
             
-            # 結果をファイルに追記
             with open(output_file, 'a') as f:
                 for path, embedding in zip(valid_paths, embeddings):
                     row_data = [path] + embedding.tolist()
