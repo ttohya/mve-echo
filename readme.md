@@ -1,4 +1,4 @@
-# Vector Embedding Project for Echocardiogram
+# Multi-View Encoder for Echocardiogram
 
 ## Preparation for analysis
 ### Install envoroment
