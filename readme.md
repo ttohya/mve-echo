@@ -28,3 +28,11 @@ conda env create -f environment.yml
     2. ve_mve
         - step00: mve traioning and, ve generation and initial evaluation
         - step01 ~ step06: analysis
+
+
+## Acknowledgments
+- **Funding**: This research was supported by a grant of the Korea Health Technology R&D Project through the Korea Health Industry Development Institute (KHIDI), funded by the Ministry of Health & Welfare, Republic of Korea (grant number: RS-2024-00439677)
+
+---
+
+**Disclaimer**: This software is provided for research purposes only. It is not intended for clinical use. Always comply with your institution's ethics and data usage policies when working with healthcare data.
